@@ -6,7 +6,8 @@ Phrase generator.
 
 Naively iterates through string templates and interpolates keywords.
 
-The algorithm doesn't know how to allow keywords to respond to other keywords, such as informing nouns that follow numbers to convert to a plural form.
+The algorithm doesn't know how to allow keywords to respond to other keywords,
+ such as informing nouns that follow numbers to convert to a plural form.
 """
 
 import random
@@ -28,7 +29,7 @@ def containsKeyword(string):
 def getKeyword(string):
   if containsKeyword(string):
     (start, keyword, end) = string.split('#', 2)
-    return keyword;
+    return keyword
   else:
     return ''
 
@@ -52,9 +53,8 @@ def insertItem(item, string):
 
 
 def rectifyLastArticle(phrase):
-  """ changes a phrase ending in ' a' to end in ' an' """
+  """ changes a phrase ending in 'a' to end in 'an' """
   if phrase[len(phrase)-3:len(phrase)] == ' a ':
-    #...
     return phrase[:len(phrase)-3] + ' an '
   else:
     return phrase
@@ -63,18 +63,23 @@ def rectifyLastArticle(phrase):
 def wordRequiresNewArticle(word):
   """ word that starts with a vowel or otherwise requires an 'an' """
   vowels = ['a', 'e', 'i', 'o', 'u']
-  return word[0] in vowels
+  return word[0].lower() in vowels if len(word) else False
 
 
 nouns = ['joker', 'cow', 'toaster oven', 'idiot', 'octopus']
-locations = ['bathtub', 'very small #noun#']
-adjectives = ['beautiful', 'purple']
-past_verbs = ['destroyed']
-numbers = ['six', 'one hundred']
+locations = ['in the bathtub', 'by a very small #noun#', 'underneath the #noun#', 'at the market']
+adjectives = ['beautiful', 'purple', 'heavy', 'light', 'unbelievably #adjective#']
+past_verbs = ['destroyed', 'murdered', 'pickled', 'yeeted', 'sat on', 'enslaved']
+numbers = ['six', 'one hundred', 'eleventeen']
+pronouns = ['he', 'she', 'they']
 
 templates = [
-  'Once upon a time there was a #noun# who lived in a #location#.',
-  'A #adjective# #noun# at the #location# once #past verb# a #noun#.'
+  'Once upon a time there was a #noun# who lived #location#.',
+  'A #adjective# #noun# #location# once #past verb# a #noun#.',
+  'Because, a #noun# tastes good with a #adjective# #noun#.',
+  'I never knew any #noun#s, but I once knew #numbers# #adjective# #noun#',
+  'The last #noun# who moves gets a face full of #adjective# #noun# in their #location#',
+  'But #pronoun# is an #adjective#',
 ]
 
 atlas = {
@@ -83,6 +88,7 @@ atlas = {
   'adjective': adjectives,
   'past verb': past_verbs,
   'number': numbers,
+  'pronoun': pronouns,
 }
 
 
